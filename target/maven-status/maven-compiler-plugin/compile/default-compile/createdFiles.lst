@@ -1,0 +1,14 @@
+com\angular\model\BaseDomain.class
+com\angular\model\Friend.class
+com\angular\dao\UserDAO.class
+com\angular\daoimpl\UserDAOImpl.class
+com\angular\model\ChatForumComment.class
+com\angular\model\Event.class
+com\angular\model\ChatForum.class
+com\angular\model\User.class
+com\angular\dao\BlogDAO.class
+com\angular\model\Chat.class
+com\angular\controller\UserController.class
+com\angular\model\Blog.class
+com\angular\daoimpl\BlogDAOImpl.class
+com\angular\model\JobApplication.class
