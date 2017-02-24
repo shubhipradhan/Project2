@@ -17,7 +17,7 @@ import com.angular.model.User;
 @EnableTransactionManagement
 public class UserDAOImpl implements UserDAO {
 
-	@Autowired(required=true)
+	@Autowired
 	private SessionFactory sessionFactory;
 
 	// How get initialize
@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public User get(String userId) {
 		
-		return (User) sessionFactory.getCurrentSession().get(User.class, userId);
+		return (User) sessionFactory.getCurrentSession().get(User.class,userId);
 
 	}
 
@@ -51,35 +51,38 @@ public class UserDAOImpl implements UserDAO {
 		//If the invalid credentials -> will return null
 	@Transactional
 	public User validate(String userId, String password) {
-		String hql = "from User where id ='" + userId + "'  and password='" + password + "'";
+		String hql = "from User where userId ='" + userId + "'  and password='" + password + "'";
 
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 
 		return (User) query.uniqueResult();
 
 	}
+	
 	@Transactional
 	public boolean save(User user) {
 
 		try {
 			sessionFactory.getCurrentSession().save(user);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 
-		return true;
+		
 	}
 	@Transactional
 	public boolean update(User user) {
 		try {
 			sessionFactory.getCurrentSession().update(user);
+			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+	
 	}
 
 }

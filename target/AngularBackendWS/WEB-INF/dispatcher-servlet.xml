@@ -14,8 +14,17 @@
 
 	<!-- Configure view Resolver [convert the logical view to actual view] -->
 
+<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+		
+			<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<mvc:annotation-driven />
+		
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		<property name="prefix" value="/WEB-INF/pages/"></property>
 		<property name="suffix" value=".html"></property>
 	</bean>

@@ -4,12 +4,17 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
 
 @Entity
+@Table(name="C_Chat")
+@Component
 public class Chat extends BaseDomain  {
 
 	@Id
-	private int cartId;
+	private Integer chatId;
 	
 	private String userId;
 	
@@ -19,12 +24,15 @@ public class Chat extends BaseDomain  {
 	
 	private Date date_time;
 
-	public int getCartId() {
-		return cartId;
+	
+	
+
+	public Integer getChatId() {
+		return chatId;
 	}
 
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
+	public void setChatId(Integer chatId) {
+		this.chatId = chatId;
 	}
 
 	public String getUserId() {

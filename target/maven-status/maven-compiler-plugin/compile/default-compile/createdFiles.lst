@@ -5,6 +5,7 @@ com\angular\daoimpl\UserDAOImpl.class
 com\angular\model\ChatForumComment.class
 com\angular\model\Event.class
 com\angular\model\ChatForum.class
+com\angular\controller\BlogController.class
 com\angular\model\User.class
 com\angular\dao\BlogDAO.class
 com\angular\model\Chat.class

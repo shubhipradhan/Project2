@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name="C_Forum")
+@Component
 public class ChatForum  extends BaseDomain {
 	
 	@Id

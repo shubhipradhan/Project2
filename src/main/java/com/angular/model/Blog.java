@@ -2,36 +2,57 @@ package com.angular.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
 
 
 
 @Entity
 @Table(name="C_Blog")
+@Component
 public class Blog extends BaseDomain {
 
 	@Id
-	private int blogId;
+	//@GeneratedValue-17/2/17
+	@Column(name="ID")
+	private Integer blogId;
 	
 	private String title;
 	
 	private String userId;
 	
+	
+	//default sysdate in DB or in java new Date()
+	
 	private Date date_time;
 	
-	private char status;
+	
+	// A--> Approved
+	// R--> Reject
+	// N--> New
+	// By default it should be new
+	
+	private String status;
 	
 	private String reason;
 	
+	//Character Oriented Large Object
 	private String description;
 
-	public int getBlogId() {
+
+
+
+	public Integer getBlogId() {
 		return blogId;
 	}
 
-	public void setBlogId(int blogId) {
+	public void setBlogId(Integer blogId) {
 		this.blogId = blogId;
 	}
 
@@ -59,14 +80,7 @@ public class Blog extends BaseDomain {
 		this.date_time = date_time;
 	}
 
-	public char getStatus() {
-		return status;
-	}
-
-	public void setStatus(char status) {
-		this.status = status;
-	}
-
+	
 	public String getReason() {
 		return reason;
 	}
@@ -81,6 +95,14 @@ public class Blog extends BaseDomain {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	
