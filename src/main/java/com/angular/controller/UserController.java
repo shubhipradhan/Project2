@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angular.dao.UserDAO;
 import com.angular.model.User;
 
-
-
-
 @RestController
 public class UserController {
 
@@ -102,7 +99,7 @@ public class UserController {
 	
 	}
 	
-	@PostMapping("/login/")
+	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User user){
 		user=userDAO.validate(user.getUserId(), user.getPassword());
 		
