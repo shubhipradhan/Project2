@@ -63,10 +63,15 @@ public class UserController {
 		return new ResponseEntity<List<User>>(users,HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/createUser/")
+	//@PostMapping(value="/createUser/")
+	//@PostMapping(value="/user/")
+	@RequestMapping(value = "/user/", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user){
 		
 		if(userDAO.get(user.getUserId())==null){
+			user.setIs_Online('N');
+			user.setReason("Contact");
+			user.setStatus('N');
 			userDAO.save(user);
 			user.setErrorCode("200");
 			user.setErrorMessage("Successfully Registered");
@@ -79,28 +84,49 @@ public class UserController {
 		return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
 	
-	@GetMapping("/validate/{id}/{password}")
-	public ResponseEntity<User> validateCredentials(@PathVariable("id") String id , @PathVariable("password") String password){
+	private User updateStatus(String id, char status, String reason) {
 		
-		user = userDAO.validate(id, password);
+		user = userDAO.get(id);
+
+		if (user == null) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("Could not update the status to " + status);
+		} else {
+
+			user.setStatus(status);
+			user.setReason(reason);
+			
+			userDAO.update(user);
+			
+			user.setErrorCode("200");
+			user.setErrorMessage("Updated the status successfully");
+		}
 		
-	if(user==null){
-		user = new User();
-		user.setErrorCode("404");
-		user.setErrorMessage("Invalid ");
-	}else
-	{
-		user.setErrorCode("200");
-		user.setErrorMessage("Login successfuly");
-		
+		return user;
+
 	}
 	
-	return new ResponseEntity<User>(user,HttpStatus.OK);
-	
+	@RequestMapping(value = "/accept/{id}", method = RequestMethod.GET)
+	public ResponseEntity<User> accept(@PathVariable("id") String id) {
+		
+		user = updateStatus(id, 'A', "");
+		
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+
 	}
 	
+	@RequestMapping(value = "/reject/{id}/{reason}", method = RequestMethod.GET)
+	public ResponseEntity<User> reject(@PathVariable("id") String id, @PathVariable("reason") String reason) {
+	
+		user = updateStatus(id, 'R', reason);
+	
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+
+	}
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User user){
+		System.out.println("User Id----> "+user.getUserId());
 		user=userDAO.validate(user.getUserId(), user.getPassword());
 		
 		if(user==null){
@@ -127,6 +153,34 @@ public class UserController {
 		
 		return user;
 	}
+	@RequestMapping(value = "/myProfile", method = RequestMethod.GET)
+	public ResponseEntity<User> myProfile(HttpSession session) {
+		
+		String loggedInUserID = (String) session.getAttribute("loggedInUserID");
+		User user = userDAO.get(loggedInUserID);
+		if (user == null) {
+			
+			user = new User(); // It does not mean that we are inserting new row
+			user.setErrorCode("404");
+			user.setErrorMessage("User does not exist");
+			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
+	public ResponseEntity<User> logout(HttpSession session) {
+		
+		String loggedInUserID = (String) session.getAttribute("loggedInUserID");
+		//friendDAO.setOffLine(loggedInUserID);
+		//userDAO.setOffLine(loggedInUserID);
+
+		session.invalidate();
+
+		user.setErrorCode("200");
+		user.setErrorMessage("You have successfully logged");
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	};
 	/*@GetMapping("/validate/{id}/{password}")
 	public ResponseEntity<User> validateCredentials(@PathVariable("id") String id , @PathVariable("password") String password){
 		

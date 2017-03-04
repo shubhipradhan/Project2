@@ -22,6 +22,8 @@ public class User extends BaseDomain {
 	
 	private String password;
 	
+	private String address;
+	
 	private String email;
 	
 	private String mobile;
@@ -35,6 +37,14 @@ public class User extends BaseDomain {
 	private char is_Online;
 
 	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String getUserId() {
 		return userId;

@@ -10,10 +10,12 @@ public interface UserDAO {
 
 	public User get(String userId);
 
-	public User validate(String id, String password);
+	public User validate(String userId, String password);
 
 	public boolean save(User user);
 
 	public boolean update(User user);
+
+	
 	
 }
