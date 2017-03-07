@@ -1,5 +1,6 @@
 package com.angular.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,15 +14,18 @@ public class Friend extends BaseDomain  {
 	
 	@Id
 	private int id;
-	
+	@Column(name="user_id")
 	private String userId;
-	
+	@Column(name="friend_id")
 	private String friendId;
 	
-	private char status;
+	private String status;
 	
 	private char is_Online;
 
+	//@Column(name="LAST_SEEN_TIME")
+	//private 
+	
 	public int getId() {
 		return id;
 	}
@@ -46,11 +50,11 @@ public class Friend extends BaseDomain  {
 		this.friendId = friendId;
 	}
 
-	public char getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

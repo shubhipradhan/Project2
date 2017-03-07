@@ -16,7 +16,7 @@ public interface BlogDAO {
 
 	public boolean update(Blog blog);*/
 
-	public Blog getBlog(Integer blogId);
+	public Blog getBlog(Integer id);
 	
 	public boolean save(Blog blog);
 	

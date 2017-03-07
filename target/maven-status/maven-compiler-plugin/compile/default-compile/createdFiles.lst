@@ -14,6 +14,8 @@ com\angular\dao\BlogDAO.class
 com\angular\model\Chat.class
 com\angular\controller\UserController.class
 com\angular\model\Blog.class
+com\angular\daoimpl\FriendDAOImpl.class
 com\angular\daoimpl\JobDAOImpl.class
 com\angular\daoimpl\BlogDAOImpl.class
+com\angular\dao\FriendDAO.class
 com\angular\model\JobApplication.class

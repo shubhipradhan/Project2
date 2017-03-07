@@ -19,9 +19,10 @@ import org.springframework.stereotype.Component;
 public class Blog extends BaseDomain {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	//@GeneratedValue-17/2/17
 	@Column(name="ID")
-	private Integer blogId;
+	private Integer id;
 	
 	private String title;
 	
@@ -38,7 +39,7 @@ public class Blog extends BaseDomain {
 	// N--> New
 	// By default it should be new
 	
-	private String status;
+	private char status;
 	
 	private String reason;
 	
@@ -48,12 +49,13 @@ public class Blog extends BaseDomain {
 
 
 
-	public Integer getBlogId() {
-		return blogId;
+	
+	public Integer getId() {
+		return id;
 	}
 
-	public void setBlogId(Integer blogId) {
-		this.blogId = blogId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -97,11 +99,11 @@ public class Blog extends BaseDomain {
 		this.description = description;
 	}
 
-	public String getStatus() {
+	public char getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 	

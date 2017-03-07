@@ -83,7 +83,24 @@ public class UserController {
 		
 		return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
-	
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> listAllUsers() {
+
+		
+		List<User> users = userDAO.list();
+
+		// errorCode :200 :404
+		// errorMessage :Success :Not found
+
+		if (users.isEmpty()) {
+			user.setErrorCode("404");
+			user.setErrorMessage("No users are available");
+			users.add(user);
+		}
+
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+
 	private User updateStatus(String id, char status, String reason) {
 		
 		user = userDAO.get(id);
@@ -124,6 +141,8 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 
 	}
+	//@PostMapping("/login")
+	//@RequestMapping(value="/login/",method=RequestMethod.POST)
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User user){
 		System.out.println("User Id----> "+user.getUserId());
@@ -172,6 +191,9 @@ public class UserController {
 	public ResponseEntity<User> logout(HttpSession session) {
 		
 		String loggedInUserID = (String) session.getAttribute("loggedInUserID");
+		user=userDAO.get(loggedInUserID);
+		// user.setLastSeenTime(new Date(System.currentTimeMillis()));
+		//userDAO.update(user);
 		//friendDAO.setOffLine(loggedInUserID);
 		//userDAO.setOffLine(loggedInUserID);
 
@@ -180,7 +202,7 @@ public class UserController {
 		user.setErrorCode("200");
 		user.setErrorMessage("You have successfully logged");
 		return new ResponseEntity<User>(user, HttpStatus.OK);
-	};
+	}
 	/*@GetMapping("/validate/{id}/{password}")
 	public ResponseEntity<User> validateCredentials(@PathVariable("id") String id , @PathVariable("password") String password){
 		

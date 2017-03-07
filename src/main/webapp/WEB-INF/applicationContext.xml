@@ -9,7 +9,7 @@
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
         <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
-        <property name="username" value="TALK2"/>
+        <property name="username" value="Talk2"/>
         <property name="password" value="shubhi" />
     </bean>
 
@@ -19,6 +19,7 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
       <!--        <prop key="hibernate.hbm2ddl.auto">update</prop>   -->
+
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
             </props>

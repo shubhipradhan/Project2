@@ -36,11 +36,11 @@ public class BlogDAOImpl implements BlogDAO {
 	// i will call this private method instead of calling
 	// sessionFactory.getCurrentSession
 
-	public Blog getBlog(Integer blogId) {
+	public Blog getBlog(Integer id) {
 		
 		// sessionFactory.getCurrentSession().get(Blog.class,blogId);
 		
-		return (Blog) getSession().get(Blog.class, blogId);
+		return (Blog) getSession().get(Blog.class, id);
 
 	}
 
@@ -65,7 +65,9 @@ public class BlogDAOImpl implements BlogDAO {
  */
 	
 	public List<Blog> getAllBlogs() {
-		String hql = "from Blog where status= 'A'";
+		//String hql = "from Blog where status= 'A'";
+		String hql = "from Blog ";
+
 		Query query = getSession().createQuery(hql);
 		return query.list();
 	}

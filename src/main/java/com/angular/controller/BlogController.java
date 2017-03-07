@@ -1,3 +1,4 @@
+
 package com.angular.controller;
 
 import java.util.Date;
@@ -6,11 +7,15 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angular.dao.BlogDAO;
@@ -37,9 +42,124 @@ public class BlogController {
 	//but for POST mapping we have to give
 	// Get Mapping automatically convert into JSON objects
 	
+	@GetMapping("/blogs")
+	public List<Blog> getBlogs() {
+		//logger.debug("calling method getBlogs");
+		
+		List blogs =   blogDAO.getAllBlogs();
+		
+		if(blogs==null)
+			
+		{
+			blog = new Blog();
+			
+			blog.setErrorCode("404");
+			blog.setErrorMessage("No blogs are available");
+			blogs.add(blog);
+			
+		}
+		return blogs;
+		
+		
+		//How it is returning JSONArray without proper return type i.e., ResponseEntity<List<Blog>>
+	}
+
+	@GetMapping("/blog/{id}")
+	public Blog getBlog(@PathVariable("id") int id) {
+		//logger.debug("**************calling method getBlogs with the id " + id);
+		Blog blog = blogDAO.getBlog(id);
+		
+		//logger.debug("date of creation of the blog from DB : " + blog.getDateTime());
+		if(blog==null)
+		{
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Blog not found with the id:" + id);
+		}
+		
+		return blog;
+		/*if (blog == null) {
+			return new ResponseEntity<Blog>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);*/
+	}
+
+	@PostMapping(value = "/blog")
+	public ResponseEntity<Blog> createBlog(@RequestBody Blog blog, HttpSession session) {
+		//logger.debug("calling method createBlog with id " +blog.getId());
+		
+		String loggedInUserID = (String) session.getAttribute("loggedInUserID");
+		//logger.debug(" Blog is creating by the blog :"+loggedInUserID);
+		blog.setUserId(loggedInUserID);
+		blog.setStatus('N');// A->Accepted,  R->Rejected
+		blog.setDate_time(new Date(System.currentTimeMillis()));
+		
+		//logger.debug("the current time is setting :" + blog.getDateTime());
+		blogDAO.save(blog);
+
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+	}
 
 	
-	@GetMapping("/getAllBlogs")
+
+	@PutMapping("/blog/{id}")
+	public ResponseEntity<Blog> updateBlog(@PathVariable int id, @RequestBody Blog blog) {
+		//logger.debug("calling method updateBlog with the id " + id);
+		
+		if (blogDAO.getBlog(id)==null) {
+			return new ResponseEntity<Blog>(HttpStatus.NOT_FOUND);
+		}
+		blogDAO.update(blog);
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+	}
+
+	
+
+	@RequestMapping(value = "/accept_blog/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Blog> accept(@PathVariable("id") int id) {
+		
+		blog = updateStatus(id, 'A', "");
+		//logger.debug("Ending of the method accept");
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/reject_blog/{id}/{reason}", method = RequestMethod.GET)
+	public ResponseEntity<Blog> reject(@PathVariable("id") int id, @PathVariable("reason") String reason) {
+		
+		blog = updateStatus(id, 'R', reason);
+		
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+
+	}
+
+	private Blog updateStatus(int id, char status, String reason) {
+		
+		blog = blogDAO.getBlog(id);
+
+		if (blog == null) {
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Could not update the status");
+		} else {
+
+			blog.setStatus(status);
+			blog.setReason(reason);
+			
+			blogDAO.update(blog);
+			
+			blog.setErrorCode("200");
+			blog.setErrorMessage("Updated the status successfully");
+		}
+		
+		return blog;
+
+	
+	}
+
+	
+/*	@GetMapping("/blogs")
 	public List<Blog> getAllBlogs()
 	{
 		
@@ -80,12 +200,12 @@ public class BlogController {
 			blog.setErrorCode("404");
 			blog.setErrorMessage("Blog does not Exist");
 		}
-		if(blog.getStatus().equals("A")){
+		if(blog.getStatus()==('A')){
 			blog.setErrorCode("404");
 			blog.setErrorMessage("Blog is Already Approved");
 		}
 		
-		blog.setStatus("A");
+		blog.setStatus('A');
 		
 		if(blogDAO.update(blog)){
 			blog.setErrorCode("200");
@@ -112,9 +232,11 @@ public class BlogController {
 			blog.setErrorMessage("You have to Login");
 			return blog;
 		}
-		
-		blog.setStatus("N");
+System.out.println("value of 		blog.setUserId(loggedInUserId)"+loggedInUserId);
+
+		blog.setStatus('N');
 		blog.setUserId(loggedInUserId);
+		
 		blog.setDate_time(new Date());
 		
 		// If you have not given default sysdate then you have to write this
@@ -155,12 +277,12 @@ public class BlogController {
 			blog.setErrorCode("404");
 			blog.setErrorMessage("Blog does not Exist");
 		}
-		if(blog.getStatus().equals("A")){
+		if(blog.getStatus()=='A'){
 			blog.setErrorCode("404");
 			blog.setErrorMessage("Blog is Already Approved");
 		}
 		
-		blog.setStatus("R");
+		blog.setStatus('R');
 		
 		if(blogDAO.update(blog)){
 			blog.setErrorCode("200");
@@ -174,6 +296,6 @@ public class BlogController {
 		
 		return blog;
 	
-	}
+	}*/
 	
 }

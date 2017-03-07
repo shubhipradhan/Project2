@@ -32,7 +32,7 @@ public class JobController {
 	@Autowired
 	JobApplication jobApplication;
 	
-	@RequestMapping(value="/getAllJobs/")
+	@RequestMapping(value="/getAllJobs/",method=RequestMethod.GET)
 	public ResponseEntity<List<Job>> getAllOpendJobs(){
 		
 		List<Job> jobs=jobDAO.getAllOpendJobs();
@@ -40,7 +40,7 @@ public class JobController {
 		return new ResponseEntity<List<Job>>(jobs,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/postAJob",method=RequestMethod.POST)
+	@RequestMapping(value="/postAJob/",method=RequestMethod.POST)
 	public ResponseEntity<Job> postaJob(@RequestBody Job job){
 		job.setStatus('V');
 		Date date=new Date();

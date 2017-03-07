@@ -14,6 +14,8 @@ F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\model\Event.java
 F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\controller\BlogController.java
 F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\controller\JobController.java
 F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\daoimpl\BlogDAOImpl.java
+F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\daoimpl\FriendDAOImpl.java
 F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\model\ChatForumComment.java
+F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\dao\FriendDAO.java
 F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\dao\UserDAO.java
 F:\SpringWorkspace\AngularBackendWS\src\main\java\com\angular\model\JobApplication.java
